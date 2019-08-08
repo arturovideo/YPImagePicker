@@ -93,6 +93,11 @@ class LibraryMediaManager {
                 }
                 
                 try videoCompositionTrack.insertTimeRange(trackTimeRange, of: videoTrack, at: CMTime.zero)
+
+                if let textTrack = asset.tracks(withMediaType: .text).first,
+                    let textCompositionTrack = assetComposition.addMutableTrack(withMediaType: .text, preferredTrackID: kCMPersistentTrackID_Invalid) {
+                    try textCompositionTrack.insertTimeRange(textTrack.timeRange, of: textTrack, at: textTrack.timeRange.start)
+                }
                 
                 // 2. Create the instructions
                 
